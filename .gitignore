@@ -3,3 +3,9 @@
 /node_modules
 .idea
 CLAUDE.md
+
+# Signing keys — must never be committed
+*.jks
+*.keystore
+/.keystore
+keystore-info.txt
