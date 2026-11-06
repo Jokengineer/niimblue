@@ -13,6 +13,8 @@ export class UndoRedo {
 
   public onLabelUpdate?: (data: ExportedLabelTemplate) => Promise<void>;
   public onStateUpdate?: (state: UndoState) => void;
+  /** Fired after a real state change is pushed (not while paused, i.e. not during undo/redo/load). */
+  public onPush?: () => void;
 
   private updateState() {
     this.onStateUpdate?.({
@@ -56,5 +58,6 @@ export class UndoRedo {
 
     this.index = this.buf.length - 1;
     this.updateState();
+    this.onPush?.();
   }
 }

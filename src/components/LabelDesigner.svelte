@@ -166,6 +166,42 @@
     return FileUtils.makeExportedLabel(fabricCanvas!, labelProps, csvEnabled);
   };
 
+  // --- Autosave of the current working label ---------------------------------
+  let autosaveTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const autosaveNow = () => {
+    if (!fabricCanvas) {
+      return;
+    }
+    try {
+      const tpl: ExportedLabelTemplate = {
+        label: labelProps,
+        canvas: fabricCanvas.toJSON(),
+      };
+      if (csvEnabled) {
+        tpl.csv = $csvData;
+      }
+      LocalStoragePersistence.saveAutosave(tpl);
+    } catch (e) {
+      console.error("Autosave failed", e);
+    }
+  };
+
+  const scheduleAutosave = () => {
+    if (autosaveTimer !== undefined) {
+      clearTimeout(autosaveTimer);
+    }
+    autosaveTimer = setTimeout(autosaveNow, 600);
+  };
+
+  // Save immediately when the app is backgrounded or closed (e.g. swipe-away).
+  const onVisibilityChange = () => {
+    if (document.visibilityState === "hidden") {
+      autosaveNow();
+    }
+  };
+  // --------------------------------------------------------------------------
+
   const onLoadRequested = (label: ExportedLabelTemplate) => {
     loadLabelData(label).then(() => undo.push(fabricCanvas!, labelProps));
   };
@@ -302,6 +338,17 @@
       return;
     }
 
+    // Restore the last autosaved work, so nothing is lost on accidental close.
+    try {
+      const autosaved = LocalStoragePersistence.loadAutosave();
+      if (autosaved !== null && autosaved.canvas.objects.length > 0) {
+        onLoadRequested(autosaved);
+        return;
+      }
+    } catch (e) {
+      console.error("Autosave restore failed", e);
+    }
+
     try {
       const defaultTemplate = LocalStoragePersistence.loadDefaultTemplate();
 
@@ -350,6 +397,11 @@
     window.addEventListener("hashchange", loadLabelFromUrl);
 
     undo.push(fabricCanvas, labelProps);
+
+    // Autosave on every change, plus immediately when backgrounded/closed.
+    undo.onPush = scheduleAutosave;
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("pagehide", autosaveNow);
 
     // force close dropdowns on touch devices
     fabricCanvas.on("mouse:down", (): void => {
@@ -449,6 +501,12 @@
   });
 
   onDestroy(() => {
+    autosaveNow();
+    if (autosaveTimer !== undefined) {
+      clearTimeout(autosaveTimer);
+    }
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    window.removeEventListener("pagehide", autosaveNow);
     fabricCanvas!.dispose();
     window.removeEventListener("hashchange", loadLabelFromUrl);
   });

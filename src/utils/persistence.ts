@@ -121,6 +121,25 @@ export class LocalStoragePersistence {
     this.validateAndSaveObject("last_label_props", labelData, LabelPropsSchema);
   }
 
+  /**
+   * Autosave of the current working label (canvas + props + csv).
+   * Stored raw for best fidelity; validated on load.
+   */
+  static saveAutosave(data: ExportedLabelTemplate) {
+    this.saveObject("autosave_current", data);
+  }
+
+  /**
+   * @throws {z.ZodError}
+   */
+  static loadAutosave(): ExportedLabelTemplate | null {
+    return this.loadAndValidateObject("autosave_current", ExportedLabelTemplateSchema);
+  }
+
+  static clearAutosave() {
+    localStorage.removeItem("autosave_current");
+  }
+
   static createUidForLabel(label: ExportedLabelTemplate): string {
     const basename = `saved_label_${label.timestamp}`;
     let counter = 0;
