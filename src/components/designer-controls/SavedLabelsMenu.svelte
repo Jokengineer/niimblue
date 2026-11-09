@@ -115,14 +115,8 @@
 
     const label = savedLabels[selectedIndex];
 
-    let message = $tr("editor.warning.load");
-
     if (label.csv) {
-      message += "\n" + $tr("editor.warning.load.csv");
-    }
-
-    if (!confirm(message)) {
-      return;
+      Toasts.message($tr("editor.warning.load.csv"));
     }
 
     onLoadRequested(label);
