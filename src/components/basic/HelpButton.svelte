@@ -4,9 +4,11 @@
   interface Props {
     /** Help text / markup shown when the button is pressed. */
     children: Snippet;
+    /** Open the popup above the button instead of below (for buttons near the bottom). */
+    openUp?: boolean;
   }
 
-  let { children }: Props = $props();
+  let { children, openUp = false }: Props = $props();
 
   let open = $state(false);
 </script>
@@ -21,7 +23,7 @@
     onclick={() => (open = !open)}>?</button>
 
   {#if open}
-    <div class="help-pop">
+    <div class="help-pop" class:up={openUp}>
       <button type="button" class="help-close" aria-label="Close" onclick={() => (open = false)}>×</button>
       <div class="help-content">{@render children()}</div>
     </div>
@@ -82,6 +84,10 @@
     max-height: 70vh;
     overflow-y: auto;
     overflow-x: hidden;
+  }
+  .help-pop.up {
+    top: auto;
+    bottom: calc(100% + 6px);
   }
   .help-close {
     position: absolute;

@@ -34,6 +34,8 @@
     "editor.default_text": "Текст",
     "editor.delete": "Удалить",
     "editor.iconpicker.add": "Добавить свою иконку",
+    "editor.iconpicker.req": "Формат загружаемых иконок — (*.SVG). Иконка должна быть одноцветной.",
+    "editor.iconpicker.req.help": "SVG — это векторная картинка (из Illustrator, Inkscape, Figma и т.п.), а не фото. PNG/JPG не подойдут. Можно добавить сразу несколько файлов. Размер любой — иконка подстроится. Принтер печатает только чёрным, поэтому бери одноцветный рисунок без градиентов.",
     "editor.iconpicker.delete_mode": "Режим удаления",
     "editor.iconpicker.search": "Поиск",
     "editor.iconpicker.show": "Показывать",

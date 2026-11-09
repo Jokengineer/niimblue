@@ -36,6 +36,8 @@
     "editor.default_text": "Text",
     "editor.delete": "Delete",
     "editor.iconpicker.add": "Add new",
+    "editor.iconpicker.req": "Icon file format — (*.SVG). The icon must be a single color.",
+    "editor.iconpicker.req.help": "SVG is a vector image (from Illustrator, Inkscape, Figma, etc.), not a photo. PNG/JPG won't work. You can add several files at once. Any size — the icon scales. The printer prints in black only, so use a single-color drawing without gradients.",
     "editor.iconpicker.delete_mode": "Delete mode",
     "editor.iconpicker.search": "Search",
     "editor.iconpicker.show": "Show",

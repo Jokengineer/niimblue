@@ -3,6 +3,7 @@
   import { tr } from "$/utils/i18n";
   import { iconCodepoints, type MaterialIcon } from "$/styles/mdi_icons";
   import MdIcon from "$/components/basic/MdIcon.svelte";
+  import HelpButton from "$/components/basic/HelpButton.svelte";
   import { appConfig, userIcons } from "$/stores";
   import { FileUtils } from "$/utils/file_utils";
   import { Toasts } from "$/utils/toasts";
@@ -113,6 +114,11 @@
         {/if}
       </div>
 
+      <div class="icon-req small mb-1 d-flex align-items-start gap-2">
+        <span class="flex-grow-1">{$tr("editor.iconpicker.req")}</span>
+        <HelpButton openUp>{$tr("editor.iconpicker.req.help")}</HelpButton>
+      </div>
+
       <div class="input-group input-group-sm mb-1">
         <button class="btn btn-outline-secondary" onclick={addOwn}>
           <MdIcon icon="add" />
@@ -140,7 +146,7 @@
 <style>
   .dropdown-menu {
     width: 100vw;
-    max-width: 450px;
+    max-width: 380px;
   }
   .icons {
     max-height: 400px;
@@ -148,5 +154,8 @@
   }
   .user-icon img {
     width: 24px;
+  }
+  .icon-req {
+    color: #a7c7e7;
   }
 </style>

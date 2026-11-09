@@ -241,7 +241,7 @@ export class FileUtils {
 
     for (const file of fileList) {
       const ext = file.name.split(".").pop();
-      if (ext === acceptExtension) {
+      if (ext?.toLowerCase() === acceptExtension) {
         const data = await file.text();
         result.push(data);
       } else {
@@ -268,7 +268,7 @@ export class FileUtils {
     const file: File = fileList[0];
     const ext = file.name.split(".").pop();
 
-    if (acceptExtension !== "*" && ext !== acceptExtension) {
+    if (acceptExtension !== "*" && ext?.toLowerCase() !== acceptExtension) {
       throw new Error(`Only ${acceptExtension} allowed`);
     }
 
