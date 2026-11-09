@@ -584,7 +584,7 @@
           {zoomText}
         </button>
 
-        <CsvControl bind:enabled={csvEnabled} onPlaceholderPicked={onCsvPlaceholderPicked} />
+        <CsvControl bind:enabled={csvEnabled} onPlaceholderPicked={onCsvPlaceholderPicked} onOpenPreview={openPreview} />
 
         <IconPicker onSubmit={onIconPicked} onSubmitSvg={onSvgIconPicked} />
 
